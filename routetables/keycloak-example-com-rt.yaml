@@ -5,7 +5,6 @@ metadata:
   namespace: gloo-mesh-gateways
 spec:
   hosts:
-  #- keycloak.keycloak.svc.cluster.local
   - keycloak.example.com
   virtualGateways:
   - name: istio-ingressgateway
