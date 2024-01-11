@@ -1,0 +1,43 @@
+apiVersion: admin.gloo.solo.io/v2
+kind: RateLimitServerConfig
+metadata:
+  name: usage-plans
+  namespace: gloo-mesh
+spec:
+  destinationServers:
+  - port:
+      name: grpc
+    ref:
+      cluster: gg-demo-single
+      name: rate-limiter
+      namespace: gloo-mesh
+  raw:
+    setDescriptors:
+      - simpleDescriptors:
+          - key: userId
+          - key: usagePlan
+            value: bronze
+        rateLimit:
+          requestsPerUnit: 1
+          unit: MINUTE
+      - simpleDescriptors:
+          - key: userId
+          - key: usagePlan
+            value: silver
+        rateLimit:
+          requestsPerUnit: 3
+          unit: MINUTE
+      - simpleDescriptors:
+          - key: userId
+          - key: usagePlan
+            value: gold
+        rateLimit:
+          requestsPerUnit: 5
+          unit: MINUTE
+      - simpleDescriptors:
+          - key: userId
+          - key: usagePlan
+            value: platinum
+        rateLimit:
+          requestsPerUnit: 10000
+          unit: MINUTE
